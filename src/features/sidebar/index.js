@@ -1,12 +1,8 @@
 import * as React from 'react';
-import { styled, useTheme } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
-import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
@@ -14,8 +10,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { Icon } from '@iconify/react';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
 
-const drawerWidth = 240;
+import { useSelector, useDispatch } from 'react-redux';
+import { setSidebarStatus } from '../admin/userSlice';
+
+const drawerWidth = 244;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -32,9 +33,9 @@ const closedMixin = (theme) => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: 0,
   [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(12)})`,
   },
 });
 
@@ -66,43 +67,48 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 export default function SideBar() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const open = useSelector(state => state.user.sidebarStatus)
+  const dispatch = useDispatch()
 
   return (
       <Drawer variant="permanent" open={open} >
         <DrawerHeader>
-          <IconButton onClick={() => {setOpen(!open)}}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          <IconButton onClick={() => {dispatch(setSidebarStatus(!open))}}>
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <List>
+            <ListItem>
+              <ListItemIcon>
+                <Avatar sx={{ width: 60, height: 60 }} src='https://gorodprizrak.com/wp-content/uploads/2021/01/346545.jpg' ></Avatar>
+              </ListItemIcon>
+              <Box sx={{ flexDirection: 'column', pl: 2 }} >
+                <ListItemText primary={"Артем Иванов"} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={"Собственник"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />
+              </Box>
+            </ListItem>
             <ListItem key={"Аналитика"} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
+                    mx: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="fluent:data-pie-20-regular" />
                 </ListItemIcon>
-                <ListItemText primary={"Аналитика"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Аналитика"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Профиль"} disablePadding sx={{ display: 'block' }}>
@@ -111,18 +117,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="solar:user-circle-outline" />
                 </ListItemIcon>
-                <ListItemText primary={"Профиль"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Профиль"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Модерация"} disablePadding sx={{ display: 'block' }}>
@@ -131,18 +140,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="mdi:text-box-check-outline" />
                 </ListItemIcon>
-                <ListItemText primary={"Модерация"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Модерация"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Чаты"} disablePadding sx={{ display: 'block' }}>
@@ -151,18 +163,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="tabler:message-2" />
                 </ListItemIcon>
-                <ListItemText primary={"Чаты"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Чаты"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Баннеры"} disablePadding sx={{ display: 'block' }}>
@@ -171,18 +186,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="mdi:image-multiple-outline" />
                 </ListItemIcon>
-                <ListItemText primary={"Баннеры"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Баннеры"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Команда"} disablePadding sx={{ display: 'block' }}>
@@ -191,18 +209,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="heroicons:user-group" />
                 </ListItemIcon>
-                <ListItemText primary={"Команда"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Команда"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Блог"} disablePadding sx={{ display: 'block' }}>
@@ -211,18 +232,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="grommet-icons:notes" />
                 </ListItemIcon>
-                <ListItemText primary={"Блог"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Блог"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Курс валют"} disablePadding sx={{ display: 'block' }}>
@@ -231,18 +255,21 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25
                   }}
                 >
-                  <Icon icon="tabler:logout" />
+                  <Icon icon="ant-design:dollar-outlined" />
                 </ListItemIcon>
-                <ListItemText primary={"Курс валют"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Курс валют"} sx={{ opacity: open ? 1 : 0, color: "#9494A0" }} />}
               </ListItemButton>
             </ListItem>
             <ListItem key={"Выйти"} disablePadding sx={{ display: 'block' }}>
@@ -251,18 +278,22 @@ export default function SideBar() {
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  py: 2.5
                 }}
               >
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
+                    ml: open ? 0 : 'auto',
                     justifyContent: 'center',
+                    fontSize: 25,
+                    color: "#FF9E90"
                   }}
                 >
                   <Icon icon="tabler:logout" />
                 </ListItemIcon>
-                <ListItemText primary={"Выйти"} sx={{ opacity: open ? 1 : 0 }} />
+                {open && <ListItemText primary={"Выйти"} sx={{ opacity: open ? 1 : 0, color: "#FF9E90" }} />}
               </ListItemButton>
             </ListItem>
         </List>

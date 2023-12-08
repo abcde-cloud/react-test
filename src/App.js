@@ -5,7 +5,7 @@ import Admin from './features/admin'
 
 function App() {
   return (
-    <Box sx={{ display: 'flex', bgcolor: '#f5f5f5' }} >
+    <Box display= {{ sm: 'flex' }} >
        <SideBar />
         <Admin />
     </Box>
