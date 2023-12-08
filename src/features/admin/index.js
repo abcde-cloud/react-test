@@ -120,7 +120,7 @@ export default function Admin() {
       authorized: false
     }));
     newPermission = [];
-    //setAddDlgStatus(false);
+    setAddDlgStatus(false);
   }
 
   return (
@@ -355,7 +355,7 @@ export default function Admin() {
         width= 'xl'
       >
         <DialogTitle sx={{textAlign: 'center', pt: 5, px: 5}}>
-          <Typography variant="h4"><b>Отправьте приглашение</b></Typography>
+          <Typography variant="h5"><b>Отправьте приглашение</b></Typography>
         </DialogTitle>
         <DialogContent sx = {{px: 5, pb: 5}}>
           <Box  sx={{ flexDirection: 'column'}}>
@@ -369,7 +369,7 @@ export default function Admin() {
                   outline: '2px solid var(--Input-focusedHighlight)',
                   outlineOffset: '2px',
                 },
-                mb: 1
+                my: 2,
               }}
               onChange={e => setEmailStatus(e.target.value)}
             />
